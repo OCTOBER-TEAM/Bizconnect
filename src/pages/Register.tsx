@@ -88,7 +88,7 @@ export default function RegisterBusinessForm() {
     };
 
     try {
-      const response = await fetch("/php-service/submit.php", {
+      const response = await fetch("https://bizconnect.free.nf/submit.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
