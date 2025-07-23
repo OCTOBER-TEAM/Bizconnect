@@ -44,7 +44,7 @@ $client->setScopes([
 ]);
 
 // Setup Sheets API
-$spreadsheetId = 'YOUR_SPREADSHEET_ID';
+$spreadsheetId = '1PbLxTGwxXMZgJG8AwkuQalvLm60AUC5EePN3jgiJFx4';
 $sheetService = new Sheets($client);
 
 $sheetRange = 'Sheet1!A1'; // Adjust if needed
