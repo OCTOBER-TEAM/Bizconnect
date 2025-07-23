@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { MapPin, Phone, Mail } from "lucide-react";
 
 const categories = [
   "All Categories",
@@ -88,7 +89,7 @@ export default function RegisterBusinessForm() {
     };
 
     try {
-      const response = await fetch("https://bizconnect.free.nf/submit.php", {
+      const response = await fetch("/php-service/submit.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -133,7 +134,7 @@ export default function RegisterBusinessForm() {
   }
 
   return (
-    <Card className="max-w-3xl mx-auto mt-10 p-6 shadow-lg rounded-2xl">
+    <><Card className="max-w-3xl mx-auto mt-10 p-6 shadow-lg rounded-2xl">
       <CardHeader>
         <CardTitle className="text-center text-3xl font-bold text-primary">
           Register Your Business
@@ -149,15 +150,12 @@ export default function RegisterBusinessForm() {
             placeholder="Full Name"
             value={formData.fullName}
             onChange={handleChange}
-            required
-          />
+            required />
 
           <div className="grid grid-cols-2 gap-4">
             <Select
               value={formData.contactType}
-              onValueChange={(value) =>
-                setFormData((prev) => ({ ...prev, contactType: value }))
-              }
+              onValueChange={(value) => setFormData((prev) => ({ ...prev, contactType: value }))}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Contact Type" />
@@ -170,15 +168,12 @@ export default function RegisterBusinessForm() {
 
             <Input
               name="contactInfo"
-              placeholder={
-                formData.contactType === "email"
-                  ? "Email Address"
-                  : "Phone Number"
-              }
+              placeholder={formData.contactType === "email"
+                ? "Email Address"
+                : "Phone Number"}
               value={formData.contactInfo}
               onChange={handleChange}
-              required
-            />
+              required />
           </div>
 
           <Input
@@ -186,16 +181,14 @@ export default function RegisterBusinessForm() {
             placeholder="Your Email Address"
             value={formData.email}
             onChange={handleChange}
-            required
-          />
+            required />
 
           <Input
             name="phone"
             placeholder="Your Phone Number"
             value={formData.phone}
             onChange={handleChange}
-            required
-          />
+            required />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Input
@@ -203,22 +196,18 @@ export default function RegisterBusinessForm() {
               placeholder="Location / Township"
               value={formData.location}
               onChange={handleChange}
-              required
-            />
+              required />
 
             <Input
               name="city"
               placeholder="City"
               value={formData.city}
               onChange={handleChange}
-              required
-            />
+              required />
 
             <Select
               value={formData.province}
-              onValueChange={(value) =>
-                setFormData((prev) => ({ ...prev, province: value }))
-              }
+              onValueChange={(value) => setFormData((prev) => ({ ...prev, province: value }))}
               required
             >
               <SelectTrigger>
@@ -239,14 +228,11 @@ export default function RegisterBusinessForm() {
             placeholder="Business Name"
             value={formData.businessName}
             onChange={handleChange}
-            required
-          />
+            required />
 
           <Select
             value={formData.businessType}
-            onValueChange={(value) =>
-              setFormData((prev) => ({ ...prev, businessType: value }))
-            }
+            onValueChange={(value) => setFormData((prev) => ({ ...prev, businessType: value }))}
             required
           >
             <SelectTrigger>
@@ -266,18 +252,14 @@ export default function RegisterBusinessForm() {
             placeholder="What services are you interested in?"
             value={formData.servicesInterested}
             onChange={handleChange}
-            rows={3}
-          />
+            rows={3} />
 
           <div className="flex items-start gap-2">
             <Checkbox
               name="consent"
               checked={formData.consent}
-              onCheckedChange={(checked) =>
-                setFormData((prev) => ({ ...prev, consent: checked === true }))
-              }
-              required
-            />
+              onCheckedChange={(checked) => setFormData((prev) => ({ ...prev, consent: checked === true }))}
+              required />
             <Label htmlFor="consent">
               I agree to receive communications from ITDF BizConnect
             </Label>
@@ -288,6 +270,35 @@ export default function RegisterBusinessForm() {
           </Button>
         </form>
       </CardContent>
-    </Card>
+    </Card><section className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-poppins font-bold text-primary mb-8">
+            Get in Touch
+          </h2>
+          <div className="grid sm:grid-cols-3 gap-8">
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 bg-primary-gradient rounded-full flex items-center justify-center mb-4">
+                <MapPin className="w-6 h-6 text-primary-foreground" />
+              </div>
+              <h3 className="font-semibold text-primary mb-2">Location</h3>
+              <p className="text-muted-foreground">Meadowlands Primary (Classroom Office), Meadowlands Zone 7</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 bg-primary-gradient rounded-full flex items-center justify-center mb-4">
+                <Phone className="w-6 h-6 text-primary-foreground" />
+              </div>
+              <h3 className="font-semibold text-primary mb-2">Phone</h3>
+              <p className="text-muted-foreground">068 218 5005 | 079 514 6870</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 bg-primary-gradient rounded-full flex items-center justify-center mb-4">
+                <Mail className="w-6 h-6 text-primary-foreground" />
+              </div>
+              <h3 className="font-semibold text-primary mb-2">Email</h3>
+              <p className="text-muted-foreground">helloitdf@gmail.com</p>
+            </div>
+          </div>
+        </div>
+      </section></>
   );
 }

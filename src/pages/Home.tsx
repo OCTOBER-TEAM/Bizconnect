@@ -93,21 +93,21 @@ const Home = () => {
                 <MapPin className="w-6 h-6 text-primary-foreground" />
               </div>
               <h3 className="font-semibold text-primary mb-2">Location</h3>
-              <p className="text-muted-foreground">Township Business Hub</p>
+              <p className="text-muted-foreground">Meadowlands Primary (Classroom Office), Meadowlands Zone 7</p>
             </div>
             <div className="flex flex-col items-center">
               <div className="w-12 h-12 bg-primary-gradient rounded-full flex items-center justify-center mb-4">
                 <Phone className="w-6 h-6 text-primary-foreground" />
               </div>
               <h3 className="font-semibold text-primary mb-2">Phone</h3>
-              <p className="text-muted-foreground">+27 XX XXX XXXX</p>
+              <p className="text-muted-foreground">068 218 5005 | 079 514 6870</p>
             </div>
             <div className="flex flex-col items-center">
               <div className="w-12 h-12 bg-primary-gradient rounded-full flex items-center justify-center mb-4">
                 <Mail className="w-6 h-6 text-primary-foreground" />
               </div>
               <h3 className="font-semibold text-primary mb-2">Email</h3>
-              <p className="text-muted-foreground">info@itdfbizconnect.co.za</p>
+              <p className="text-muted-foreground">helloitdf@gmail.com</p>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Upload, QrCode, CreditCard, Smartphone, Shield, Clock } from "lucide-react";
+import { Upload, QrCode, CreditCard, Smartphone, Shield, Clock, Link } from "lucide-react";
 import { useState } from "react";
 
 const Payments = () => {
@@ -213,7 +213,51 @@ const Payments = () => {
             </CardContent>
           </Card>
         </div>
+        <section className="bg-secondary py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl sm:text-4xl font-poppins font-bold text-primary mb-6">
+              Membership Fees & Benefits
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8">
+              To keep things simple and accessible, we offer two monthly membership options:
+            </p>
 
+            <div className="bg-background rounded-lg shadow-md p-6 mb-6 text-left">
+              <table className="w-full text-left border-separate border-spacing-y-2">
+                <thead>
+                  <tr className="text-primary text-lg">
+                    <th className="py-2">Type</th>
+                    <th className="py-2">Monthly Fee</th>
+                    <th className="py-2">Includes</th>
+                  </tr>
+                </thead>
+                <tbody className="text-muted-foreground">
+                  <tr className="bg-muted rounded-lg">
+                    <td className="py-2 px-4">Individual</td>
+                    <td className="py-2 px-4">R30</td>
+                    <td className="py-2 px-4">Access to community support, jobs board, and ITDF workshops</td>
+                  </tr>
+                  <tr className="bg-muted rounded-lg">
+                    <td className="py-2 px-4">Business</td>
+                    <td className="py-2 px-4">R50</td>
+                    <td className="py-2 px-4">Includes all of the above, plus directory listing, business support & leads</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="text-muted-foreground mb-8 text-left max-w-2xl mx-auto">
+              <p className="mb-2 font-semibold text-primary">All members also get:</p>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Voting rights in ITDF</li>
+                <li>Early access to new initiatives</li>
+                <li>Recognition in community and external reports</li>
+              </ul>
+            </div>
+          </div>
+      </section>
+
+        <br/>
         {/* Benefits Section */}
         <div className="mb-12">
           <h2 className="text-3xl font-poppins font-bold text-primary text-center mb-8">

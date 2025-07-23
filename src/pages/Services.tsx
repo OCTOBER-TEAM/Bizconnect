@@ -7,93 +7,75 @@ const Services = () => {
   const services = [
     {
       id: 1,
-      title: "CIPC Business Registration",
+      title: "Business Support Services",
       description: "Complete company registration with CIPC including name reservation, registration certificate, and compliance documentation.",
       price: "R850",
       duration: "3-5 business days",
       icon: Building,
       features: [
-        "Company name reservation",
-        "CIPC registration certificate",
+        "Help with business registration (CIPC, SARS, BEE, COID)",
+        "Assistance with branding, compliance, and operations",
         "BEE compliance certificate",
-        "Tax registration assistance"
+        "Access to shared admin tools and proposal templates"
       ],
       whatsappMessage: "Hi! I'm interested in CIPC Business Registration services. Can you help me get started?"
     },
     {
       id: 2,
-      title: "Professional Logo Design",
+      title: "Township Business Directory App",
       description: "Custom logo design that represents your brand identity with multiple concepts and unlimited revisions.",
       price: "R500",
       duration: "2-3 business days",
       icon: Palette,
       features: [
-        "3 unique logo concepts",
-        "Unlimited revisions",
-        "High-resolution files",
-        "Business card template"
+        "Local app to list your business and be discovered by more customers",
+        "Includes business reviews, contact info, and social media links",
+        "Listings only available to paid-up ITDF members",
       ],
-      whatsappMessage: "Hi! I'd like to get a professional logo designed for my business. What information do you need?"
+      whatsappMessage: "Hi! I'd like to get add my business on your platform?"
     },
     {
       id: 3,
-      title: "Tax Compliance & Help",
-      description: "Professional tax assistance including SARS registration, tax returns, and ongoing compliance support.",
+      title: "Workshops & Training",
+      description: "Provided content.",
       price: "R650",
       duration: "1-2 business days",
       icon: Calculator,
       features: [
-        "SARS registration",
-        "VAT registration assistance",
-        "Monthly tax compliance",
-        "Tax planning advice"
+        "Learn about marketing, budgeting, digital tools and more",
+        "Free and discounted access to members",
+        "Focused on spaza shops, vendors, youth and women entrepreneurs",
       ],
       whatsappMessage: "Hi! I need help with tax compliance for my business. Can you assist with SARS registration and ongoing support?"
     },
     {
       id: 4,
-      title: "Business Planning & Strategy",
-      description: "Comprehensive business plan development with market analysis, financial projections, and growth strategies.",
+      title: "Market Access",
+      description: "Social media setup, basic website creation, and digital marketing strategy for township businesses.",
       price: "R1,200",
       duration: "5-7 business days",
       icon: Briefcase,
       features: [
-        "Executive summary",
-        "Market analysis",
-        "Financial projections",
-        "Growth strategy"
+        "Priority access to community market days",
+        "Upcoming Youth Market Square for young entrepreneurs",
+        "Referrals to community and institutional buyers",
       ],
-      whatsappMessage: "Hi! I'm looking for help with creating a business plan. Can you tell me more about your business planning services?"
+      whatsappMessage: "Hi! I'm looking for help with market access"
     },
+    
     {
       id: 5,
-      title: "Digital Marketing Setup",
-      description: "Social media setup, basic website creation, and digital marketing strategy for township businesses.",
-      price: "R800",
-      duration: "3-4 business days",
-      icon: Users,
-      features: [
-        "Social media account setup",
-        "Basic website/landing page",
-        "Google My Business listing",
-        "Digital marketing strategy"
-      ],
-      whatsappMessage: "Hi! I want to establish my business online. Can you help with digital marketing and social media setup?"
-    },
-    {
-      id: 6,
-      title: "Legal Documentation",
+      title: "Networking & Referrals",
       description: "Essential legal documents for your business including contracts, terms of service, and compliance documentation.",
       price: "R750",
       duration: "2-4 business days",
       icon: FileText,
       features: [
-        "Service contracts",
-        "Terms & conditions",
-        "Privacy policy",
-        "Employment contracts"
+        "Connect with other local business owners",
+        "Join a WhatsApp support group for updates and advice",
+        "Be part of a trusted township business network",
       ],
-      whatsappMessage: "Hi! I need help with legal documentation for my business. What documents do you recommend for a new business?"
+      whatsappMessage: "Hi! I need help with Networking and referrals"
     }
   ];
 
