@@ -1,68 +1,104 @@
-import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useMemo, useState } from "react";
+import {
+  Card, CardContent, CardDescription, CardHeader, CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Search, MapPin, Phone, Mail, Building } from "lucide-react";
+import clsx from "clsx";
+
+const businesses = [
+  {
+    id: 1,
+    name: "Mama's Kitchen",
+    type: "Fast Food",
+    province: "Gauteng",
+    city: "Sandton",
+    township: "Alexandra",
+    description: "Traditional South African cuisine and catering services",
+    contact: "+27 12 345 6789",
+    email: "mamas@kitchen.co.za",
+    services: ["Catering", "Traditional Food", "Events"]
+  },
+  {
+    id: 2,
+    name: "TechFix Solutions",
+    type: "Tech Repairs",
+    province: "Gauteng",
+    city: "Johannesburg",
+    township: "Soweto",
+    description: "Computer repair and IT support services",
+    contact: "+27 87 654 3210",
+    email: "info@techfix.co.za",
+    services: ["Computer Repair", "IT Support", "Software Installation"]
+  },
+  {
+    id: 3,
+    name: "Beautiful You Salon",
+    type: "Barbers & Hair Salons",
+    province: "Gauteng",
+    city: "Midrand",
+    township: "Thembisa",
+    description: "Full service hair and beauty salon",
+    contact: "+27 76 543 2109",
+    email: "beauty@salon.co.za",
+    services: ["Hair Styling", "Manicures", "Makeup"]
+  }
+];
+
+const categories = [
+  "All Categories",
+  "Plumbers",
+  "Electricians",
+  "Lawyers",
+  "Doctors",
+  "Nurses & Clinics",
+  "Painters",
+  "Drivers",
+  "Accountants & Tax Services",
+  "Mechanics",
+  "Builders & Renovators",
+  "Grocery Shops / Spaza Shops",
+  "Fast Food",
+  "Vendors",
+  "Barbers & Hair Salons",
+  "Car Washes",
+  "Butchers",
+  "Clothing & Tailors",
+  "DJs & Event Planners",
+  "Security Companies",
+  "Tech Repairs",
+  "Tutors & Teachers",
+  "Childcare / Creches",
+  "Internet Cafés",
+  "Other"
+];
 
 const Directory = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterType, setFilterType] = useState("all");
+  const [locationSearch, setLocationSearch] = useState("");
+  const [filterType, setFilterType] = useState("All Categories");
 
-  // Sample business data - this would come from your Google Sheets
-  const businesses = [
-    {
-      id: 1,
-      name: "Mama's Kitchen",
-      type: "Food & Beverage",
-      ward: "Ward 3",
-      description: "Traditional South African cuisine and catering services",
-      contact: "+27 12 345 6789",
-      email: "mamas@kitchen.co.za",
-      services: ["Catering", "Traditional Food", "Events"]
-    },
-    {
-      id: 2,
-      name: "TechFix Solutions", 
-      type: "Technology/Digital",
-      ward: "Ward 7",
-      description: "Computer repair and IT support services",
-      contact: "+27 87 654 3210",
-      email: "info@techfix.co.za",
-      services: ["Computer Repair", "IT Support", "Software Installation"]
-    },
-    {
-      id: 3,
-      name: "Beautiful You Salon",
-      type: "Services (Hair, Beauty, etc.)",
-      ward: "Ward 2",
-      description: "Full service hair and beauty salon",
-      contact: "+27 76 543 2109",
-      email: "beauty@salon.co.za",
-      services: ["Hair Styling", "Manicures", "Makeup"]
-    }
-  ];
+  const filteredBusinesses = useMemo(() => {
+    const lowerSearch = searchTerm.toLowerCase();
+    const lowerLocation = locationSearch.toLowerCase();
+    return businesses.filter((b) => {
+      const matchesSearch =
+        b.name.toLowerCase().includes(lowerSearch) ||
+        b.description.toLowerCase().includes(lowerSearch);
+      const matchesType = filterType === "All Categories" || b.type === filterType;
+      const matchesLocation =
+          b.province.toLowerCase().includes(lowerLocation) ||
+          b.city.toLowerCase().includes(lowerLocation) ||
+          b.township.toLowerCase().includes(lowerLocation);
 
-  const businessTypes = [
-    "all",
-    "Retail/Shop",
-    "Food & Beverage", 
-    "Services (Hair, Beauty, etc.)",
-    "Construction/Maintenance",
-    "Transport/Logistics",
-    "Technology/Digital",
-    "Arts & Crafts",
-    "Healthcare/Wellness",
-    "Education/Training"
-  ];
-
-  const filteredBusinesses = businesses.filter(business => {
-    const matchesSearch = business.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         business.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = filterType === "all" || business.type === filterType;
-    return matchesSearch && matchesType;
-  });
+      return matchesSearch && matchesType && matchesLocation;
+    });
+  }, [searchTerm, filterType, locationSearch]);
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -77,37 +113,61 @@ const Directory = () => {
           </p>
         </div>
 
-        {/* Search and Filter */}
-        <div className="flex flex-col md:flex-row gap-4 mb-8">
-          <div className="relative flex-1">
+        {/* Search and Filters */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
-              placeholder="Search businesses..."
+              placeholder="Search by name or service..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
             />
           </div>
+
+          <div className="relative">
+            <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <Input
+              placeholder="Search by location (e.g. Soweto)"
+              value={locationSearch}
+              onChange={(e) => setLocationSearch(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+
           <Select value={filterType} onValueChange={setFilterType}>
-            <SelectTrigger className="md:w-64">
-              <SelectValue placeholder="Filter by type" />
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Filter by category" />
             </SelectTrigger>
             <SelectContent>
-              {businessTypes.map((type) => (
+              {categories.map((type) => (
                 <SelectItem key={type} value={type}>
-                  {type === "all" ? "All Business Types" : type}
+                  {type}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
 
-        {/* Results */}
-        <div className="mb-4">
-          <p className="text-muted-foreground">
-            Showing {filteredBusinesses.length} of {businesses.length} businesses
-          </p>
+        {/* Category Badges */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {categories.map((type) => (
+            <Badge
+              key={type}
+              variant={filterType === type ? "default" : "outline"}
+              onClick={() => setFilterType(type)}
+              className={clsx("cursor-pointer", {
+                "border-primary text-primary": filterType === type
+              })}
+            >
+              {type}
+            </Badge>
+          ))}
         </div>
+
+        <p className="text-muted-foreground mb-4">
+          Showing {filteredBusinesses.length} of {businesses.length} businesses
+        </p>
 
         {/* Business Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -130,9 +190,9 @@ const Directory = () => {
                 <div className="space-y-3">
                   <div className="flex items-center text-sm text-muted-foreground">
                     <MapPin className="w-4 h-4 mr-2" />
-                    {business.ward}
+                    {business.province} {", "} {business.township}
                   </div>
-                  
+
                   <div className="flex flex-wrap gap-1">
                     {business.services.map((service, index) => (
                       <Badge key={index} variant="outline" className="text-xs">
@@ -161,6 +221,7 @@ const Directory = () => {
           ))}
         </div>
 
+        {/* No Results */}
         {filteredBusinesses.length === 0 && (
           <div className="text-center py-12">
             <Building className="w-16 h-16 text-muted-foreground mx-auto mb-4" />

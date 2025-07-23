@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Users, Briefcase, TrendingUp, MapPin, Phone, Mail } from "lucide-react";
+import Directory from "./Directory";
 
 const Home = () => {
   const features = [
@@ -35,8 +36,8 @@ const Home = () => {
               Empowering Township Entrepreneurs
             </p>
             <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
-              Your gateway to business success in the township. Connect with essential services, 
-              register your business, and join a thriving community of entrepreneurs.
+              Discover and connect with local businesses in your township. From plumbers to painters, 
+              find trusted services right in your community.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button 
@@ -49,8 +50,8 @@ const Home = () => {
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link to="/services">Explore Services</Link>
+              <Button asChild variant="outline" size="lg">  
+                <Link to="/directory">Explore Businesses</Link>
               </Button>
             </div>
           </div>
@@ -58,36 +59,7 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-poppins font-bold text-primary mb-4">
-              Why Choose ITDF BizConnect?
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We understand the unique challenges and opportunities in township business environments.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <Card key={index} className="border-2 hover:border-primary/20 transition-all duration-300 hover:shadow-primary">
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-primary-gradient rounded-full flex items-center justify-center mx-auto mb-6">
-                    <feature.icon className="w-8 h-8 text-primary-foreground" />
-                  </div>
-                  <h3 className="text-xl font-poppins font-semibold text-primary mb-4">
-                    {feature.title}
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {feature.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Directory />
 
       {/* CTA Section */}
       <section className="bg-secondary py-16 px-4 sm:px-6 lg:px-8">

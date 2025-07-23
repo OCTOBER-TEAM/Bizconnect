@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -16,37 +17,90 @@ const Register = () => {
     fullName: "",
     contactType: "",
     contactInfo: "",
-    ward: "",
+    email: "",
+    phone: "",
+    location: "",
+    city: "",
+    province: "",
     businessName: "",
     businessType: "",
     servicesInterested: "",
-    consent: false
+    consent: false,
   });
+
+  const provinces = [
+    "Eastern Cape",
+    "Free State",
+    "Gauteng",
+    "KwaZulu-Natal",
+    "Limpopo",
+    "Mpumalanga",
+    "North West",
+    "Northern Cape",
+    "Western Cape"
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission - you can connect this to Google Sheets
+    const uniqueId = uuidv4();
+
+    const payload = {
+      id: uniqueId,
+      ...formData,
+      status: "New Business",
+      timestamp: new Date().toISOString(),
+    };
+
     try {
-      // Here you would integrate with Google Sheets API or Google Forms
-      console.log("Form data:", formData);
-      
+      // Google Sheets integration
+      await fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      // Send confirmation email to user
+      await fetch("/api/send-email", {
+        method: "POST",
+        body: JSON.stringify({
+          to: formData.email,
+          subject: "BizConnect Application Received",
+          message: `Hi ${formData.fullName},\n\nWe have received your business registration. Your ID is: ${uniqueId}.\n\nRegards,\nITDF BizConnect Team`,
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      // Send notification email to admin
+      await fetch("/api/send-email", {
+        method: "POST",
+        body: JSON.stringify({
+          to: "admin@itdfbizconnect.co.za",
+          subject: "New Business Registration",
+          message: `New business application from ${formData.fullName}.\n\nEmail: ${formData.email}\nPhone: ${formData.phone}\nBusiness Name: ${formData.businessName}\nStatus: New Business`,
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+
       toast({
         title: "Registration Successful!",
         description: "Your business registration has been submitted. We'll contact you soon.",
       });
-      
-      // Reset form
+
       setFormData({
         fullName: "",
         contactType: "",
         contactInfo: "",
-        ward: "",
+        email: "",
+        phone: "",
+        location: "",
+        city: "",
+        province: "",
         businessName: "",
         businessType: "",
         servicesInterested: "",
-        consent: false
+        consent: false,
       });
     } catch (error) {
       toast({
@@ -60,21 +114,29 @@ const Register = () => {
   };
 
   const businessTypes = [
-    "Retail/Shop",
-    "Food & Beverage",
-    "Services (Hair, Beauty, etc.)",
-    "Construction/Maintenance",
-    "Transport/Logistics",
-    "Technology/Digital",
-    "Arts & Crafts",
-    "Healthcare/Wellness",
-    "Education/Training",
-    "Other"
-  ];
-
-  const wards = [
-    "Ward 1", "Ward 2", "Ward 3", "Ward 4", "Ward 5",
-    "Ward 6", "Ward 7", "Ward 8", "Ward 9", "Ward 10"
+    "Plumbers",
+    "Electricians",
+    "Lawyers",
+    "Doctors",
+    "Nurses & Clinics",
+    "Painters",
+    "Drivers",
+    "Accountants & Tax Services",
+    "Mechanics",
+    "Builders & Renovators",
+    "Grocery Shops / Spaza Shops",
+    "Fast Food",
+    "Vendors",
+    "Barbers & Hair Salons",
+    "Car Washes",
+    "Butchers",
+    "Clothing & Tailors",
+    "DJs & Event Planners",
+    "Security Companies",
+    "Tech Repairs",
+    "Tutors & Teachers",
+    "Childcare / Creches",
+    "Internet Cafés",
   ];
 
   return (
@@ -104,7 +166,7 @@ const Register = () => {
               {/* Personal Information */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-primary border-b pb-2">Personal Information</h3>
-                
+
                 <div>
                   <Label htmlFor="fullName">Full Name *</Label>
                   <Input
@@ -136,48 +198,83 @@ const Register = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="contactInfo">
-                      {formData.contactType === "whatsapp" ? "WhatsApp Number" : 
-                       formData.contactType === "email" ? "Email Address" : "Contact Information"} *
-                    </Label>
+                    <Label htmlFor="contactInfo">Contact Info *</Label>
                     <Input
                       id="contactInfo"
-                      type={formData.contactType === "email" ? "email" : "text"}
                       value={formData.contactInfo}
                       onChange={(e) => setFormData({ ...formData, contactInfo: e.target.value })}
                       required
                       className="mt-1"
-                      placeholder={
-                        formData.contactType === "whatsapp" ? "+27 XX XXX XXXX" :
-                        formData.contactType === "email" ? "your@email.com" : "Contact details"
-                      }
+                      placeholder="Your contact info"
                     />
                   </div>
                 </div>
 
-                <div>
-                  <Label htmlFor="ward">Ward *</Label>
-                  <Select
-                    value={formData.ward}
-                    onValueChange={(value) => setFormData({ ...formData, ward: value })}
-                    required
-                  >
-                    <SelectTrigger className="mt-1">
-                      <SelectValue placeholder="Select your ward" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {wards.map((ward) => (
-                        <SelectItem key={ward} value={ward}>{ward}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="email">Email Address *</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="phone">Phone Number *</Label>
+                    <Input
+                      id="phone"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <Label htmlFor="location">Location / Township *</Label>
+                    <Input
+                      id="location"
+                      value={formData.location}
+                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="city">City *</Label>
+                    <Input
+                      id="city"
+                      value={formData.city}
+                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="province">Province *</Label>
+                    <Select
+                      value={formData.province}
+                      onValueChange={(value) => setFormData({ ...formData, province: value })}
+                      required
+                    >
+                      <SelectTrigger className="mt-1">
+                        <SelectValue placeholder="Select province" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {provinces.map((prov) => (
+                          <SelectItem key={prov} value={prov}>{prov}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               </div>
 
               {/* Business Information */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-primary border-b pb-2">Business Information</h3>
-                
+
                 <div>
                   <Label htmlFor="businessName">Business Name *</Label>
                   <Input
@@ -214,12 +311,11 @@ const Register = () => {
                     value={formData.servicesInterested}
                     onChange={(e) => setFormData({ ...formData, servicesInterested: e.target.value })}
                     className="mt-1 min-h-[100px]"
-                    placeholder="Tell us about the services you need help with (e.g., CIPC registration, logo design, tax assistance, business planning, etc.)"
+                    placeholder="Tell us about the services you need help with..."
                   />
                 </div>
               </div>
 
-              {/* Consent */}
               <div className="flex items-start space-x-3">
                 <Checkbox
                   id="consent"
@@ -228,25 +324,17 @@ const Register = () => {
                   required
                 />
                 <Label htmlFor="consent" className="text-sm leading-5">
-                  I consent to ITDF BizConnect contacting me about my registration and available services. 
-                  I understand my information will be used to help connect me with relevant business opportunities and support.
+                  I consent to ITDF BizConnect contacting me and using my info to connect me with support.
                 </Label>
               </div>
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 disabled={isSubmitting || !formData.consent}
                 className="w-full bg-primary-gradient shadow-primary hover:shadow-glow transition-all duration-300"
                 size="lg"
               >
-                {isSubmitting ? (
-                  "Submitting..."
-                ) : (
-                  <>
-                    <CheckCircle className="w-5 h-5 mr-2" />
-                    Register Business
-                  </>
-                )}
+                {isSubmitting ? "Submitting..." : (<><CheckCircle className="w-5 h-5 mr-2" />Register Business</>)}
               </Button>
             </form>
           </CardContent>
@@ -254,7 +342,7 @@ const Register = () => {
 
         <div className="text-center mt-8">
           <p className="text-sm text-muted-foreground">
-            Need help with registration? Contact us at{" "}
+            Need help with registration? Contact us at {" "}
             <a href="mailto:info@itdfbizconnect.co.za" className="text-primary hover:underline">
               info@itdfbizconnect.co.za
             </a>
