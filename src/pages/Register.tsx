@@ -72,7 +72,7 @@ const Register = () => {
         headers: { "Content-Type": "application/json" },
       });
 
-      // Send notification email to admin
+      // Send notification email to admi
       await fetch("/api/send-email", {
         method: "POST",
         body: JSON.stringify({
